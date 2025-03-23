@@ -89,6 +89,7 @@ If you find this code useful for your research, please cite our paper.
 Our code is partially based on the PyTorch implementation of [DAM-VP](https://github.com/shikiw/DAM-VP), [E2VPT](https://github.com/ChengHan111/E2VPT) and [VPT](https://github.com/KMnP/vpt). Thanks for their impressive works!
 
 ### Contact
-For any questions, feel free to contact us ([lzc20180720@stu.pku.edu.cn](lzc20180720@stu.pku.edu.cn)).
 
-Welcome to our [Laboratory Homepage](http://39.108.48.32/mipl/home/) and [OV<sup>3</sup> Lab](https://zhoujiahuan1991.github.io/) for more information about our papers, source codes, and datasets.
+For any questions, feel free to contact us (xkl@stu.pku.edu.cn).
+
+Welcome to our Laboratory Homepage ([OV<sup>3</sup> Lab](https://zhoujiahuan1991.github.io/)) for more information about our papers, source codes, and datasets.
