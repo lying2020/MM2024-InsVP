@@ -90,6 +90,4 @@ Our code is partially based on the PyTorch implementation of [DAM-VP](https://gi
 
 ### Contact
 
-For any questions, feel free to contact us (xkl@stu.pku.edu.cn).
-
 Welcome to our Laboratory Homepage ([OV<sup>3</sup> Lab](https://zhoujiahuan1991.github.io/)) for more information about our papers, source codes, and datasets.
