@@ -1,8 +1,9 @@
+### Introduction
+This is the *official* repository of our ACM MM 2024 paper "InsVP: Efficient Instance Visual Prompting from Image Itself". 
+
 <p align="center">
 <a href="https://github.com/zhoujiahuan1991/MM2024-InsVP"><img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fgithub.com%2Fzhoujiahuan1991%2FMM2024-InsVP&label=InsVP&icon=github&color=%233d8bfd"></a>
 </p>
-### Introduction
-This is the *official* repository of our ACM MM 2024 paper "InsVP: Efficient Instance Visual Prompting from Image Itself". 
 
 For more details, please check out our [paper](https://openreview.net/forum?id=OTjo1q8rWL).
 
