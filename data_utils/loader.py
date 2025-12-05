@@ -45,36 +45,27 @@ _DATASET_CATALOG = {
 
 _DATA_DIR_CATALOG = {
     ### preparing for meta training
-    "sun397": "torchvision_dataset/", 
-    "stl10": "torchvision_dataset/", 
-    "fru92": "finegrained_dataset/vegfru-dataset", 
-    "veg200": "finegrained_dataset/vegfru-dataset", 
-    "oxford-iiit-pets": "torchvision_dataset/", 
-    "eurosat": "torchvision_dataset/", 
+    "sun397": "sun397/", 
+    "stl10": "stl10/", 
+    "fru92": "fru92/", 
+    "veg200": "veg200/", 
+    "oxford-iiit-pets": "oxford_pets/", 
+    "eurosat": "eurosat/", 
     ### preparing for task adapting
-    "cifar10": "Cifar10/", 
-    # "cifar10": "torchvision_dataset/", 
-    "cifar100": "Cifar100/", 
-    # "cifar100": "torchvision_dataset/", 
-    "cub200": "FGVC/CUB_200_2011/",  
-    "cub": "CUB_200_2011/",  
+    "cifar10": "CIFAR10/", 
+    "cifar100": "CIFAR100/", 
+    "cub200": "cub/",  
+    "cub": "cub/",  
     "nabirds": "nabirds/", 
-    # "nabirds": "FGVC/nabirds/", 
-    "oxford-flowers": "102flowers/", 
-    "flower102": "102flowers/", 
-    # "oxford-flowers": "FGVC/OxfordFlower/", 
-    # "stanford-dogs": "FGVC/Stanford-dogs/", 
+    "oxford-flowers": "oxford_flowers/", 
+    "flower102": "oxford_flowers/", 
     "stanford_dogs": "stanford_dogs/", 
-    # "stanford-cars": "FGVC/Stanford-cars/", 
     "stanford_cars": "stanford_cars/", 
-    "fgvc-aircraft": "FGVC/fgvc-aircraft-2013b/", 
-    # "food101": "torchvision_dataset/", 
-    "food101": "Food101/", 
-    # "dtd": "torchvision_dataset/", 
-    "dtd": "DTD/", 
-    "svhn": "SVHN/", 
-    # "svhn": "torchvision_dataset/", 
-    "gtsrb": "GTSRB/"
+    "fgvc-aircraft": "fgvc_aircraft/", 
+    "food101": "food-101/", 
+    "dtd": "dtd/", 
+    "svhn": "svhn/", 
+    "gtsrb": "gtsrb/"
 }
 
 _NUM_CLASSES_CATALOG = {

@@ -71,7 +71,13 @@ class OxfordIIITPet(VisionDataset):
             transform=get_transforms(split, args.crop_size, args.pretrained_model), 
             target_transform=target_transform
         )
-        self._base_folder = pathlib.Path(self.root) / "oxford-iiit-pet"
+        # Support both oxford-iiit-pet and oxford_pets directory structures
+        base_folder = pathlib.Path(self.root)
+        if (base_folder / "oxford-iiit-pet").exists():
+            self._base_folder = base_folder / "oxford-iiit-pet"
+        else:
+            # Use the directory itself if it's already oxford_pets
+            self._base_folder = base_folder
         self._images_folder = self._base_folder / "images"
         self._anns_folder = self._base_folder / "annotations"
         self._segs_folder = self._anns_folder / "trimaps"

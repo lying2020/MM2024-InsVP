@@ -61,7 +61,10 @@ class Model_InstanceVPD(nn.Module):
 
     def train(self):
         self.backbone.eval()
-        self.backbone.head.train()
+        # Use get_classifier to handle different backbone head attribute names
+        classifier = self.get_classifier()
+        if classifier is not None:
+            classifier.train()
         self.meta_net.train()
         self.meta_net_2.train()
         self.meta_dropout.train()
@@ -71,7 +74,10 @@ class Model_InstanceVPD(nn.Module):
 
     def eval(self):
         self.backbone.eval()
-        self.backbone.head.eval()
+        # Use get_classifier to handle different backbone head attribute names
+        classifier = self.get_classifier()
+        if classifier is not None:
+            classifier.eval()
         self.meta_net.eval()
         self.meta_net_2.eval()
         self.meta_dropout.eval()
@@ -93,16 +99,28 @@ class Model_InstanceVPD(nn.Module):
     def forward_deep_VPD(self, x, get_feature=False):
         ori_image = x
         bk = self.backbone
+        
+        # timm VisionTransformer forward pass
         x = bk.patch_embed(x)
-        x = bk._pos_embed(x)
-        x = bk.norm_pre(x)
+        x = bk._pos_embed(x)  # This handles cls_token and pos_embed
+        if hasattr(bk, 'norm_pre') and bk.norm_pre is not None:
+            x = bk.norm_pre(x)
+        
         x = self.forward_block(x, ori_image)
-        x = bk.norm(x)
-        x = x[:, 0]
+        
+        # Apply final normalization
+        if hasattr(bk, 'fc_norm') and bk.fc_norm is not None:
+            # Some timm models use fc_norm instead of norm
+            x_cls = x[:, 0]
+            x = bk.fc_norm(x_cls)
+        else:
+            x = bk.norm(x)
+            x = x[:, 0]
+        
+        classifier = self.get_classifier()
         if get_feature:
-            return bk.head(bk.fc_norm(x)), x
-        x = bk.fc_norm(x)
-        return bk.head(x)
+            return classifier(x), x
+        return classifier(x)
 
     def forward_block(self, x, ori_image):
         bk = self.backbone
@@ -143,21 +161,34 @@ class Model_InstanceVPD(nn.Module):
     def get_classifier(self):
         if self.args.arch == 'ViT/B-16':
             if self.args.pretrained == 'imagenet22k':
-                classifier = self.backbone.head
+                # timm models may use 'head' or 'heads' depending on version
+                if hasattr(self.backbone, 'head'):
+                    classifier = self.backbone.head
+                elif hasattr(self.backbone, 'heads'):
+                    classifier = self.backbone.heads
+                else:
+                    raise AttributeError(f"Backbone has neither 'head' nor 'heads' attribute")
             else:
-                classifier = self.backbone.heads
+                # torchvision models use 'heads'
+                if hasattr(self.backbone, 'heads'):
+                    classifier = self.backbone.heads
+                elif hasattr(self.backbone, 'head'):
+                    classifier = self.backbone.head
+                else:
+                    raise AttributeError(f"Backbone has neither 'head' nor 'heads' attribute")
         elif self.args.arch in ['resnet50', 'resnet18']:
             classifier = self.backbone.fc
+        else:
+            classifier = None
         return classifier
 
     def learnable_parameters(self):
-        if self.args.arch in ['ViT/B-16', 'swin']:
-            if self.args.pretrained == 'imagenet22k':
-                params = list(self.backbone.head.parameters())
-            else:
-                params = list(self.backbone.heads.parameters())
-        elif self.args.arch in ['resnet50', 'resnet18']:
-            params = list(self.backbone.fc.parameters())
+        # Use get_classifier to handle different backbone head attribute names
+        classifier = self.get_classifier()
+        if classifier is not None:
+            params = list(classifier.parameters())
+        else:
+            params = []
 
         params += list(self.meta_net.parameters())
         params += list(self.meta_dropout.parameters())

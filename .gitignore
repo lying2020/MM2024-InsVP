@@ -13,6 +13,9 @@ __pycache__/
 *.jsonl.bz2
 *.jsonl.zip
 
+output
+Output
+
 # Mac
 .DS_Store
 

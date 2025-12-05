@@ -89,13 +89,24 @@ def get_backbone(args):
                 num_classes=21843,
                 drop_block_rate=None,
             )
-            # Try to load from current directory first, then fallback to original path
+            # Try to load from models directory first, then fallback to original path
             import os
-            current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            current_dir = os.path.dirname(os.path.abspath(__file__))
             weight_path = os.path.join(current_dir, 'vit_base_p16_224_in22k.pth')
             if not os.path.exists(weight_path):
+                # Fallback to project root
+                project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                weight_path = os.path.join(project_root, 'vit_base_p16_224_in22k.pth')
+            if not os.path.exists(weight_path):
                 weight_path = '../~/models/imagenet-22k/vit_base_p16_224_in22k.pth'
-            backbone.load_state_dict(torch.load(weight_path, weights_only=True), False)
+            
+            if os.path.exists(weight_path):
+                print(f"Loading pretrained model from: {weight_path}")
+                state_dict = torch.load(weight_path, map_location='cpu', weights_only=True)
+                backbone.load_state_dict(state_dict, strict=False)
+                print("Pretrained model loaded successfully!")
+            else:
+                print(f"Warning: Pretrained model not found at {weight_path}, using randomly initialized model")
 
 
     N_classes = Dataset_N_classes[args.dataset]

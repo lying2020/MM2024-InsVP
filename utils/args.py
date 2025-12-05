@@ -20,7 +20,7 @@ def add_experiment_args(parser: ArgumentParser) -> None:
                         help='debug mode')
     parser.add_argument('--dataset', type=str,
                         # required=True,
-                        default="cifar100",
+                        default="cifar10",
                         # choices=['cifar10', 'cifar100', 'imagenet', 'flower102',
                         #          'food101', 'FGVCAircraft', 'EuroSAT', 'OxfordIIITPet',
                         #          'DTD', 'SVHN', 'GTSRB', 'StanfordCars', 'StanfordDogs'],
@@ -29,7 +29,7 @@ def add_experiment_args(parser: ArgumentParser) -> None:
                         default="ViT/B-16",
                         help='The architecture of backbone.')
     parser.add_argument('--pretrained', type=str,
-                        default="imagenet1k",
+                        default="imagenet22k",
                         help='The pretrained weights of backbone.')
     parser.add_argument('--n_epochs', type=int,
                         default=30,
@@ -159,7 +159,7 @@ def add_management_args(parser: ArgumentParser) -> None:
                         default=False)
 
 
-    parser.add_argument('--base_dir', type=str, default='')
+    parser.add_argument('--base_dir', type=str, default='/home/liying/Documents/dataset/VLMDataset')
     parser.add_argument('--dataset_perc', default=1.0, type=float, help='Dataset percentage for usage [default: 1.0].')
     parser.add_argument('--crop_size', default=224, type=int, help='Input size of images [default: 224].')
     parser.add_argument('--pretrained_model', type=str, default='vit-b-22k')
@@ -170,7 +170,7 @@ def add_management_args(parser: ArgumentParser) -> None:
 
     parser.add_argument('--NUM_GPUS', type=int, default=1, help='Num of GPUs to use.')
     parser.add_argument('--data_dir', type=str, default='')
-
+ 
 
 
 
