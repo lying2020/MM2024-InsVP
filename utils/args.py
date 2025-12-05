@@ -11,36 +11,36 @@ def add_experiment_args(parser: ArgumentParser) -> None:
     Adds the arguments used by all the models.
     :param parser: the parser instance
     """
-    parser.add_argument('--mode', type=str, 
+    parser.add_argument('--mode', type=str,
                         default="train",
                         help='train mode or eval mode')
     parser.add_argument('--debug',
                         default=False,
                         action='store_true',
                         help='debug mode')
-    parser.add_argument('--dataset', type=str, 
+    parser.add_argument('--dataset', type=str,
                         # required=True,
                         default="cifar100",
-                        # choices=['cifar10', 'cifar100', 'imagenet', 'flower102', 
-                        #          'food101', 'FGVCAircraft', 'EuroSAT', 'OxfordIIITPet', 
+                        # choices=['cifar10', 'cifar100', 'imagenet', 'flower102',
+                        #          'food101', 'FGVCAircraft', 'EuroSAT', 'OxfordIIITPet',
                         #          'DTD', 'SVHN', 'GTSRB', 'StanfordCars', 'StanfordDogs'],
                         help='Which dataset to perform experiments on.')
-    parser.add_argument('--arch', type=str, 
+    parser.add_argument('--arch', type=str,
                         default="ViT/B-16",
                         help='The architecture of backbone.')
-    parser.add_argument('--pretrained', type=str, 
+    parser.add_argument('--pretrained', type=str,
                         default="imagenet1k",
                         help='The pretrained weights of backbone.')
-    parser.add_argument('--n_epochs', type=int, 
+    parser.add_argument('--n_epochs', type=int,
                         default=30,
                         help='The training epochs.')
     parser.add_argument('--optimizer', type=str,
                         default="AdamW",
                         help='The optimizer.')
-    parser.add_argument('--lr', type=float, 
+    parser.add_argument('--lr', type=float,
                         default=3e-5,
                         help='The learning rate.')
-    parser.add_argument('--lr_c', type=float, 
+    parser.add_argument('--lr_c', type=float,
                         default=1e-1,
                         help='The learning rate.')
     parser.add_argument('--batch_size', type=int,
@@ -64,20 +64,20 @@ def add_experiment_args(parser: ArgumentParser) -> None:
     parser.add_argument("--warmup_epochs", type=int, default=10)
     parser.add_argument("--trainer", type=str, default="ours")
     parser.add_argument("--resize_dim", type=int, default=256)
-    
+
     # for tester
     parser.add_argument('--model_load_path', type=str,
                         default='',
                         help='The path of load model.')
-    
+
     parser.add_argument("--mixup", type=str,
                         default="none")
     parser.add_argument("--cutmix_alpha", type=float,
                         default=0.0)
-    
 
-    
-    
+
+
+
 def add_model_args(parser: ArgumentParser) -> None:
 
     # for InsVP
@@ -139,13 +139,15 @@ def add_model_args(parser: ArgumentParser) -> None:
     parser.add_argument("--token_prompt_type", type=str, default="add")
     parser.add_argument("--cls", type=str, default="default")
     parser.add_argument("--simam", type=str, default="False")
-    
+    parser.add_argument("--save_mask_interval", type=int, default=100,
+                        help="Save mask every N iterations (0 to disable)")
+
 
 def add_management_args(parser: ArgumentParser) -> None:
-    parser.add_argument('--info', type=str, 
+    parser.add_argument('--info', type=str,
                         default="Debug",
                         help='The information of the experiment.')
-    parser.add_argument('--seed', type=int, 
+    parser.add_argument('--seed', type=int,
                         default="3407",
                         help='set the random seed')
     parser.add_argument('--output_path', type=str,
@@ -155,8 +157,8 @@ def add_management_args(parser: ArgumentParser) -> None:
                         default='DAM-VP')
     parser.add_argument('--warm_prompt', type=bool,
                         default=False)
-    
-    
+
+
     parser.add_argument('--base_dir', type=str, default='')
     parser.add_argument('--dataset_perc', default=1.0, type=float, help='Dataset percentage for usage [default: 1.0].')
     parser.add_argument('--crop_size', default=224, type=int, help='Input size of images [default: 224].')
@@ -165,12 +167,12 @@ def add_management_args(parser: ArgumentParser) -> None:
     parser.add_argument('--num_workers', type=int, default=4, help='Worker nums of data loading.')
     parser.add_argument('--pin_memory', action='store_true', help='Pin CPU memory in DataLoader for more efficient (sometimes) transfer to GPU.')
     parser.add_argument('--num_gpus', type=int, default=1, help='Num of GPUs to use.')
-    
+
     parser.add_argument('--NUM_GPUS', type=int, default=1, help='Num of GPUs to use.')
     parser.add_argument('--data_dir', type=str, default='')
-    
-    
-      
+
+
+
 
 def save_args(args):
     """
@@ -185,4 +187,3 @@ def save_args(args):
         json.dump(args.__dict__, f, indent=2)
     args.output_path = output_path
     return args
-    

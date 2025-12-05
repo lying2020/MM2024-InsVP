@@ -31,10 +31,10 @@ class SimamModule(torch.nn.Module):
         return x * self.activaton(y)
 
 
-Dataset_N_classes = {'cifar100': 100, 
-                     'cifar10': 10, 
-                     'flower102': 102, 
-                     'food101': 101, 
+Dataset_N_classes = {'cifar100': 100,
+                     'cifar10': 10,
+                     'flower102': 102,
+                     'food101': 101,
                      'FGVCAircraft': 100,
                      'EuroSAT': 10,
                      'OxfordIIITPet': 37,
@@ -68,7 +68,7 @@ Dataset_N_classes = {'cifar100': 100,
 }
 
 def get_backbone(args):
-    
+
     if args.pretrained == 'imagenet1k':
         if args.arch == 'ViT/B-16':
             weights = ViT_B_16_Weights.IMAGENET1K_V1
@@ -79,7 +79,7 @@ def get_backbone(args):
         elif args.arch == 'resnet18':
             weights = ResNet18_Weights.IMAGENET1K_V1
             backbone = resnet18(weights=weights)
-        
+
     elif args.pretrained == 'imagenet22k':
         if args.arch == 'ViT/B-16':
             backbone = create_model(
@@ -89,9 +89,13 @@ def get_backbone(args):
                 num_classes=21843,
                 drop_block_rate=None,
             )
-            weight_path = '../~/models/imagenet-22k/vit_base_p16_224_in22k.pth'
+            # Try to load from current directory first, then fallback to original path
+            import os
+            current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            weight_path = os.path.join(current_dir, 'vit_base_p16_224_in22k.pth')
+            if not os.path.exists(weight_path):
+                weight_path = '../~/models/imagenet-22k/vit_base_p16_224_in22k.pth'
             backbone.load_state_dict(torch.load(weight_path, weights_only=True), False)
-        
 
 
     N_classes = Dataset_N_classes[args.dataset]

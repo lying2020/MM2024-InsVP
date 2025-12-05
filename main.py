@@ -49,6 +49,8 @@ def main():
 
     if args.mode == 'train':
         trainer.train(args)
+    elif args.mode == 'test' or args.mode == 'eval':
+        trainer.test(args)
 
 if __name__ == '__main__':
     # print("main.py")
