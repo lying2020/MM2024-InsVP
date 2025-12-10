@@ -32,7 +32,7 @@ def main():
     # parser = get_parser()
     add_management_args(parser)
     add_experiment_args(parser)
-    add_model_args(parser)
+    add_model_args(parser) 
     args = parser.parse_args()
     
     # Set default values if not provided
